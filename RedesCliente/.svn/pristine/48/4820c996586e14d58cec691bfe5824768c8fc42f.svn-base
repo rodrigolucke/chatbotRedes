@@ -1,0 +1,44 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package br.unisc.model;
+
+import br.unisc.rules.ChatBot;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.PrintStream;
+import java.net.ConnectException;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ *
+ * @author Pazinato
+ */
+public class Cliente {
+
+	Socket cliente;
+	private ObjectOutputStream output;
+
+	public Socket Conectar(String ip, int porta) throws ConnectException {
+		try {
+			cliente = new Socket(ip, porta);
+			output = new ObjectOutputStream(cliente.getOutputStream());
+		} catch (ConnectException ce) {
+			// erro de conexao, passa a excessao para cima, para ser tratada e
+			// avisar o usuario
+			throw ce;
+		} catch (IOException ex) {
+			Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return cliente;
+	}
+
+	public void enviaMensagem(ChatBot texto) throws IOException {
+		output.writeObject(texto);
+	}
+
+}

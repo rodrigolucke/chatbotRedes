@@ -1,0 +1,97 @@
+package br.unisc.model.xmlcotacao;
+
+/**
+ * 
+ * Objeto que representa uma moeda e suas informacoes<br>
+ * E neste objeto que sera grava a cotacao da moeda
+ * 
+ * @author jschuler
+ *
+ */
+public class Moeda {
+
+	/**
+	 * nome da moeda
+	 */
+	String nome;
+	/**
+	 * valor de cotacao da moeda
+	 */
+	String valor;
+	/**
+	 * simboo da moeda
+	 */
+	String simbolo;
+
+	/**
+	 * Contrutor de objetos moeda conforme simbolo
+	 * 
+	 * @param simbolo
+	 */
+	public Moeda(String simbolo) {
+		this.simbolo = simbolo;
+	}
+
+	/**
+	 * retorna o nome da moeda
+	 * 
+	 * @return nome
+	 */
+	public String getNome() {
+		return nome;
+	}
+
+	/**
+	 * configura o nome da moeda
+	 * 
+	 * @param nome
+	 */
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	/**
+	 * retorna o valor de cotacao da moeda
+	 * 
+	 * @return valor
+	 */
+	public String getValor() {
+		return valor;
+	}
+
+	/**
+	 * configura o valor de cotacao da moeda
+	 * 
+	 * @param valor
+	 */
+	public void setValor(String valor) {
+		this.valor = valor;
+	}
+
+	/**
+	 * retorna o simbolo da moeda
+	 * 
+	 * @return simbolo
+	 */
+	public String getSimbolo() {
+		return simbolo;
+	}
+
+	/**
+	 * configura o simbolo da moeda
+	 * 
+	 * @param simbolo
+	 */
+	public void setSimbolo(String simbolo) {
+		this.simbolo = simbolo;
+	}
+
+	/**
+	 * sobrescrita para personalizar em uma frase a cotacao da moeda
+	 */
+	@Override
+	public String toString() {
+		return "A cotacao do(a) " + getNome() + " atualmente é: " + getValor();
+	}
+
+}

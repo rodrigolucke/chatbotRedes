@@ -1,0 +1,102 @@
+package br.unisc.model.xmlcotacao;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.Characters;
+import javax.xml.stream.events.XMLEvent;
+
+public class XMLCotacaoParser {
+	static final String NOME = "nome";
+	static final String VALOR = "valor";
+	static final String VALORES = "valores";
+
+	public static final String USD = "USD";
+	public static final String EUR = "EUR";
+	public static final String ARS = "ARS";
+	public static final String GBP = "GBP";
+	public static final String BTC = "BTC";
+
+	final URL url;
+
+	public XMLCotacaoParser(String feedUrl) {
+		try {
+			this.url = new URL(feedUrl);
+		} catch (MalformedURLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public Cotacao readCotacao() {
+		Cotacao cotacao = null;
+		try {
+
+			String valor = "";
+			String nome = "";
+
+			// First create a new XMLInputFactory
+			XMLInputFactory inputFactory = XMLInputFactory.newInstance();
+			// Setup a new eventReader
+			InputStream in = read();
+			XMLEventReader eventReader = inputFactory.createXMLEventReader(in);
+			// read the XML document
+			while (eventReader.hasNext()) {
+				XMLEvent event = eventReader.nextEvent();
+				if (event.isStartElement()) {
+					String localPart = event.asStartElement().getName().getLocalPart();
+					switch (localPart) {
+					case VALORES:
+						cotacao = new Cotacao();
+						event = eventReader.nextEvent();
+						break;
+					case VALOR:
+						valor = getCharacterData(event, eventReader);
+						break;
+					case NOME:
+						nome = getCharacterData(event, eventReader);
+						break;
+					}
+				} else if (event.isEndElement()) {
+					if (event.asEndElement().getName().getLocalPart() == (USD)
+							|| event.asEndElement().getName().getLocalPart() == (EUR)
+							|| event.asEndElement().getName().getLocalPart() == (ARS)
+							|| event.asEndElement().getName().getLocalPart() == (GBP)
+							|| event.asEndElement().getName().getLocalPart() == (BTC)) {
+						Moeda moeda = new Moeda(event.asEndElement().getName().getLocalPart());
+						moeda.setValor(valor);
+						moeda.setNome(nome);
+						cotacao.getMoedas().add(moeda);
+						event = eventReader.nextEvent();
+						continue;
+					}
+				}
+			}
+		} catch (XMLStreamException e) {
+			throw new RuntimeException(e);
+		}
+		return cotacao;
+	}
+
+	private String getCharacterData(XMLEvent event, XMLEventReader eventReader) throws XMLStreamException {
+		String result = "";
+		event = eventReader.nextEvent();
+		while (event instanceof Characters) {
+			result += event.asCharacters().getData();
+			event = eventReader.nextEvent();
+		}
+		return result;
+	}
+
+	private InputStream read() {
+		try {
+			return url.openStream();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+}

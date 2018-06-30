@@ -1,0 +1,70 @@
+package br.unisc.rules;
+
+/**
+ * Lista de emojis
+ * 
+ * @author jschuler
+ *
+ */
+public enum Emoji {
+
+	/**
+	 * Feliz<br>
+	 * :)
+	 */
+	Happy {
+		@Override
+		public String getDefinition() {
+			return ":)";
+		}
+	},
+	/**
+	 * Pisca<br>
+	 * ;)
+	 */
+	Blink {
+		@Override
+		public String getDefinition() {
+			return ";)";
+		}
+	},
+	/**
+	 * choro<br>
+	 * :'(
+	 */
+	Crying {
+		@Override
+		public String getDefinition() {
+			return ":'(";
+		}
+	},
+	/**
+	 * gargalhada<br>
+	 * :D
+	 */
+	Laughing {
+		@Override
+		public String getDefinition() {
+			return ":D";
+		}
+	},
+	/**
+	 * raiva<br>
+	 * >:(
+	 */
+	angry {
+		@Override
+		public String getDefinition() {
+			return ">:(";
+		}
+	};
+
+	/**
+	 * busca a definicao de cada emoji (o proprio emoji)
+	 * 
+	 * @return
+	 */
+	public String getDefinition() {
+		return "OPS";
+	}
+}

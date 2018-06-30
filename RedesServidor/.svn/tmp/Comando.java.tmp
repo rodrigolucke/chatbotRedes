@@ -1,0 +1,107 @@
+package br.unisc.rules;
+
+public enum Comando {
+	HELP {
+		@Override
+		public String[] getDefinition() {
+			return new String[] { "/HELP" };
+		}
+
+		@Override
+		public String[] getExplanation() {
+			return new String[] { "Retorna uma lista dos comandos suportados" };
+		}
+	},
+	AUTORES {
+		@Override
+		public String[] getDefinition() {
+			return new String[] { "/AUTORES" };
+		}
+
+		@Override
+		public String[] getExplanation() {
+			return new String[] { "Retorna os nomes dos autores do projeto" };
+		}
+	},
+	DATA {
+		@Override
+		public String[] getDefinition() {
+			return new String[] { "/DATA" };
+		}
+
+		@Override
+		public String[] getExplanation() {
+			return new String[] { "Retorna a data do servidor" };
+		}
+	},
+	HORA {
+		@Override
+		public String[] getDefinition() {
+			return new String[] { "/HORA" };
+		}
+
+		@Override
+		public String[] getExplanation() {
+			return new String[] { "Retorna a hora do servidor" };
+		}
+	},
+	DATAHORA {
+		@Override
+		public String[] getDefinition() {
+			return new String[] { "/DATAHORA" };
+		}
+
+		@Override
+		public String[] getExplanation() {
+			return new String[] { "Retorna a data e a hora do servidor" };
+		}
+	},
+	EMOJI {
+		@Override
+		public String[] getDefinition() {
+			return new String[] { "/EMOJI" };
+		}
+
+		@Override
+		public String[] getExplanation() {
+			return new String[] { "Retorna um emoji randomico" };
+		}
+	},
+	NEWS {
+		@Override
+		public String[] getDefinition() {
+			return new String[] { "/NEWS" };
+		}
+
+		@Override
+		public String[] getExplanation() {
+			return new String[] { "Retorna uma noticia de capa do portal BBC News" };
+		}
+	},
+	COTACAO {
+		@Override
+		public String[] getDefinition() {
+			return new String[] { "/COTACAO", "/COTACAO <MOEDA>", "/COTACAO <MOEDA> <VALOR>" };
+		}
+
+		@Override
+<<<<<<< .mine
+		public String getExplanation() {
+			return "Retorna um emoji randomico";
+=======
+		public String[] getExplanation() {
+			return new String[] { "Retorna a cotacao em Reais de uma moeda aleatoria.",
+					"Retorna a cotacao em Reais da moeda selecionada.",
+					"Converte o valor informado (Reais) para a moeda solicitada." };
+>>>>>>> .r25
+		}
+	};
+
+	public String[] getDefinition() {
+		return new String[] { "OPS" };
+	}
+
+	public String[] getExplanation() {
+		return new String[] { "OPS" };
+	}
+}

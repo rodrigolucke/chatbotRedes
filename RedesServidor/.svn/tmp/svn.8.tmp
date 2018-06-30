@@ -1,0 +1,78 @@
+package br.unisc.rules;
+
+public enum Comando {
+	HELP {
+		@Override
+		public String getDefinition() {
+			return "/HELP";
+		}
+
+		@Override
+		public String getExplanation() {
+			return "Retorna uma lista dos comandos suportados";
+		}
+	},
+	AUTORES {
+		@Override
+		public String getDefinition() {
+			return "/AUTORES";
+		}
+
+		@Override
+		public String getExplanation() {
+			return "Retorna os nomes dos autores do projeto";
+		}
+	},
+	DATA {
+		@Override
+		public String getDefinition() {
+			return "/DATA";
+		}
+
+		@Override
+		public String getExplanation() {
+			return "Retorna a data do servidor";
+		}
+	},
+	HORA {
+		@Override
+		public String getDefinition() {
+			return "/HORA";
+		}
+
+		@Override
+		public String getExplanation() {
+			return "Retorna a hora do servidor";
+		}
+	},
+	DATAHORA {
+		@Override
+		public String getDefinition() {
+			return "/DATAHORA";
+		}
+
+		@Override
+		public String getExplanation() {
+			return "Retorna a data e a hora do servidor";
+		}
+	},
+	EMOJI {
+		@Override
+		public String getDefinition() {
+			return "/EMOJI";
+		}
+
+		@Override
+		public String getExplanation() {
+			return "Retorna um emoji randômico";
+		}
+	};
+
+	public String getDefinition() {
+		return "OPS";
+	}
+
+	public String getExplanation() {
+		return "OPS";
+	}
+}

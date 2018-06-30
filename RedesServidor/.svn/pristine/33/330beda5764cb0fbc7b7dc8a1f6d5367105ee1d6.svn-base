@@ -1,0 +1,42 @@
+package br.unisc.model.xmlcotacao;
+
+public class Moeda {
+
+	String nome;
+	String valor;
+	String simbolo;
+
+	public Moeda(String simbolo) {
+		this.simbolo = simbolo;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getValor() {
+		return valor;
+	}
+
+	public void setValor(String valor) {
+		this.valor = valor;
+	}
+
+	public String getSimbolo() {
+		return simbolo;
+	}
+
+	public void setSimbolo(String simbolo) {
+		this.simbolo = simbolo;
+	}
+
+	@Override
+	public String toString() {
+		return "A cotacao do(a) " + getNome() + " atualmente é: " + getValor();
+	}
+
+}

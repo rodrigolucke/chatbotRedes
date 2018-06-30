@@ -1,0 +1,48 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package br.unisc.rules;
+
+import java.io.Serializable;
+
+/**
+ *
+ * @author Pazinato
+ */
+public class ChatBot implements Serializable {
+
+	private String texto;
+	private String Nome;
+	private Acao acao;
+
+	public String getNome() {
+		return Nome;
+	}
+
+	public void setNome(String Nome) {
+		this.Nome = Nome;
+	}
+
+	public String getTexto() {
+		return texto;
+	}
+
+	public void setTexto(String texto) {
+		this.texto = texto;
+	}
+
+	public Acao getAcao() {
+		return acao;
+	}
+
+	public void setAcao(Acao acao) {
+		this.acao = acao;
+	}
+
+	public enum Acao {
+		CONECTAR, DESCONECTAR, ENVIAR
+	}
+
+}

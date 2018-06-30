@@ -1,0 +1,31 @@
+package br.unisc.model.xmlcotacao;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+public class Cotacao {
+
+	final List<Moeda> entries = new ArrayList<Moeda>();
+
+	public List<Moeda> getMoedas() {
+		return entries;
+	}
+
+	public Moeda getMoeda(String simbolo) {
+		for (Moeda moeda : entries) {
+			if (moeda.getSimbolo().equals(simbolo)) {
+				return moeda;
+			}
+		}
+		return null;
+	}
+
+	public Moeda getRandomMoeda() {
+		int size = entries.size();
+		int nextInt = new Random().nextInt(size);
+		Moeda moeda = entries.get(nextInt);
+		return moeda;
+	}
+
+}

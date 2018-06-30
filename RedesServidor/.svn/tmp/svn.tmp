@@ -1,0 +1,161 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package br.unisc.model;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import br.unisc.rules.ChatBot;
+import br.unisc.rules.ChatBot.Acao;
+import br.unisc.rules.Comando;
+
+/**
+ *
+ * @author Pazinato
+ */
+public class Servidor {
+
+	private ServerSocket servidor;
+	private Socket cliente;
+	private int cont;
+
+	public Servidor() {
+		this.cont = 1;
+		try {
+			servidor = new ServerSocket(1234);
+
+			System.out.println("SERVIDOR INICIADO!");
+
+			while (true) {
+				cliente = servidor.accept();
+
+				new Thread(new ThreadServer(cliente)).start();
+
+			}
+
+		} catch (IOException ex) {
+			Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
+
+	public class ThreadServer implements Runnable {
+
+		private ObjectOutputStream output;
+		private ObjectInputStream input;
+
+		public ThreadServer(Socket cliente) {
+			try {
+				this.output = new ObjectOutputStream(cliente.getOutputStream());
+				this.input = new ObjectInputStream(cliente.getInputStream());
+			} catch (IOException ex) {
+				Logger.getLogger(ThreadServer.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+
+		@Override
+		public void run() {
+			ChatBot comando = null;
+			try {
+				while ((comando = (ChatBot) input.readObject()) != null) {
+					Acao acao = comando.getAcao();
+					switch (acao) {
+					case CONECTAR:
+						System.out.println(comando.getTexto() + cliente.getLocalAddress().getHostAddress());
+						comando.setNome("Cliente " + cont);
+						comando.setTexto("Conectado como '" + comando.getNome() + "' ");
+						cont++;
+						enviar(comando, output);
+						break;
+					case DESCONECTAR:
+						System.out.println(comando.getTexto());
+						comando.setTexto("Adeus " + comando.getNome() + " !");
+						enviar(comando, output);
+						return;
+					case ENVIAR:
+						System.out.println("Nova requisição do ("+comando.getNome()+"):"+comando.getTexto());
+                                                analisarRequisicaoCliente(comando);
+						enviar(comando, output);
+						break;
+					default:
+						break;
+					}
+				}
+			} catch (IOException | ClassNotFoundException ex) {
+				Logger.getLogger(ThreadServer.class.getName()).log(Level.SEVERE, null, ex);
+			}
+		}
+
+		private void analisarRequisicaoCliente(ChatBot comando) {
+                    
+			comando.setNome("Servidor: ");
+			comando.setAcao(Acao.ENVIAR);
+			String texto = comando.getTexto().trim();
+			if (texto != null && texto.length() > 0) {
+				String[] textoRepartido = texto.split(" ");
+				if (textoRepartido.length > 0) {
+					String comandoSolicitado = textoRepartido[0];
+					if (comandoSolicitado.startsWith("/")) {
+						comandoSolicitado.substring(1);
+					}
+					try {
+						Comando comandoReconhecido = Comando.valueOf(comandoSolicitado);
+						StringBuffer sb = new StringBuffer();
+						GregorianCalendar now = new GregorianCalendar();
+						SimpleDateFormat sdf = null;
+						// comando reconhecido
+						switch (comandoReconhecido) {
+						case HELP:
+							sb.append("Ola, estes sao os comandos que eu estou programado para aceitar:\n\n");
+							Comando[] values = Comando.values();
+							for (Comando acao2 : values) {
+								sb.append(acao2.toString() + "\n");
+							}
+							comando.setTexto(sb.toString());
+							break;
+						case AUTORES:
+							sb.append("Fabricio Pazinato e Jonatas Schuler");
+							comando.setTexto(sb.toString());
+							break;
+						case DATA:
+							sdf = new SimpleDateFormat("dd-MM-yyyy");
+							sb.append(sdf.format(now.getTime()));
+							comando.setTexto(sb.toString());
+							break;
+						case HORA:
+							sdf = new SimpleDateFormat("HH:mm");
+							sb.append(sdf.format(now.getTime()));
+							comando.setTexto(sb.toString());
+							break;
+						case DATAHORA:
+							sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+							sb.append(sdf.format(now.getTime()));
+							comando.setTexto(sb.toString());
+							break;
+						default:
+							break;
+						}
+					} catch (IllegalArgumentException e) {
+						comando.setTexto("Comando desconhecido. Para maiores informacoes digite /HELP");
+					}
+				}
+			}
+                }
+                
+
+	}
+
+	private void enviar(ChatBot comando, ObjectOutputStream output) throws IOException {
+		output.writeObject(comando);
+	}
+
+}

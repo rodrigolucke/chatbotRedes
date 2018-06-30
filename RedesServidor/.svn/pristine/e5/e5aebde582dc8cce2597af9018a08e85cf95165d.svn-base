@@ -1,0 +1,39 @@
+package br.unisc.rules;
+
+public enum Emoji {
+
+	Happy {
+		@Override
+		public String getDefinition() {
+			return ":)";
+		}
+	},
+	Blink {
+		@Override
+		public String getDefinition() {
+			return ";)";
+		}
+	},
+	Crying {
+		@Override
+		public String getDefinition() {
+			return ":'(";
+		}
+	},
+	Laughing {
+		@Override
+		public String getDefinition() {
+			return ":D";
+		}
+	},
+	angry {
+		@Override
+		public String getDefinition() {
+			return ">:(";
+		}
+	};
+
+	public String getDefinition() {
+		return "OPS";
+	}
+}

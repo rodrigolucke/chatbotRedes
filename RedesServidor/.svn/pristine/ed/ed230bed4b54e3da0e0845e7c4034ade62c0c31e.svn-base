@@ -1,0 +1,54 @@
+package br.unisc.model.xmlcotacao;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+/**
+ * 
+ * Objeto que representa o conjunto de contacoes recebidas
+ * 
+ * @author jschuler
+ *
+ */
+public class Cotacao {
+
+	/**
+	 * lista de cotacoes de diferentes moedas
+	 */
+	final List<Moeda> entries = new ArrayList<Moeda>();
+
+	/**
+	 * retorna a lista de moedas
+	 * @return
+	 */
+	public List<Moeda> getMoedas() {
+		return entries;
+	}
+
+	/**
+	 * retorna a cotacao da moeda informada
+	 * @param simbolo da moeda
+	 * @return moeda com sua cotacao
+	 */
+	public Moeda getMoeda(String simbolo) {
+		for (Moeda moeda : entries) {
+			if (moeda.getSimbolo().equals(simbolo)) {
+				return moeda;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Busca uma moeda aleatoria dentre as existentes na lista
+	 * @return moeda aleatoria
+	 */
+	public Moeda getRandomMoeda() {
+		int size = entries.size();
+		int nextInt = new Random().nextInt(size);
+		Moeda moeda = entries.get(nextInt);
+		return moeda;
+	}
+
+}

@@ -1,0 +1,5 @@
+package br.unisc.rules;
+
+public enum Comando {
+	CONECTAR, DESCONECTAR, ENVIAR, HELP, AUTORES, DATA, HORA, DATAHORA
+}

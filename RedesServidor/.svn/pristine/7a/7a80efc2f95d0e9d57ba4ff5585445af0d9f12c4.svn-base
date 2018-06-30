@@ -1,0 +1,5 @@
+package br.unisc.rules;
+
+public enum Comando {
+	HELP, AUTORES, DATA, HORA, DATAHORA, EMOJI
+}
